@@ -1,14 +1,24 @@
-const getTodos = (req, res) => {
+const fs = require('fs')
+const data = fs.readFileSync('./db.json')
+const todos = JSON.parse(data)
 
-    res.status(200).json({message: 'from controller'})
+const getTodos = (req, res) => {
+    res.status(200).json(todos)
 }
 
 const getTodo = (req, res) => { 
-    res.status(200).json({ message: `from controller ${req.params.id}`})
+    todo = todos.find(todo => todo.id == req.params.id)
+    todo ? res.status(200).json(todo) : res.status(200).json({err: 'cant find the todo'})
 }
 
 const setTodo = (req, res) => { 
-    
+    new_todo = req.body
+    if (checkTodoIsCorrect(new_todo)) {
+        todos.push(new_todo)
+        fs.writeFileSync('./db.json', JSON.stringify(todos))
+    } else {
+
+     }
     res.status(200).json({ message: `create a new todo` })
 }
 
@@ -21,8 +31,9 @@ const deleteTodo = (req, res) => {
 }
 
 
-const checkTodoIsCorrect = ({ text, isCompleted, date }) => { 
-    if (text && isCompleted && date) {
+const checkTodoIsCorrect = ({ id, text, isCompleted, date }) => { 
+    console.log(id, text, isCompleted, date)
+    if (typeof text == 'string' && typeof date == 'number') {
         return true;
     } else {
         return false;
