@@ -1,4 +1,5 @@
 const getTodos = (req, res) => {
+
     res.status(200).json({message: 'from controller'})
 }
 
@@ -7,6 +8,7 @@ const getTodo = (req, res) => {
 }
 
 const setTodo = (req, res) => { 
+    
     res.status(200).json({ message: `create a new todo` })
 }
 
